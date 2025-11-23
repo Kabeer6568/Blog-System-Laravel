@@ -85,4 +85,52 @@ class BlogController extends Controller
 
     }
 
+    public function showUpdate(){
+        $user = auth()->user();
+        return view('layouts.edit' , ['user' => $user]);
+
+    }
+
+    public function update(Request $request){
+
+        $data = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . auth()->id(),//Get logged-in user's ID
+            'password' => 'nullable|string|max:255',
+            'phone_num' => 'nullable|string|max:255',
+            'profile_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = auth()->user();//Get logged-in user object
+
+        if($request->filled('name')){
+            $user['name'] = $data['name'];
+        }
+        if($request->filled('email')){
+            $user['email'] = $data['email'];
+        }
+        if($request->filled('password')){
+            $user['password'] = bcrypt($data['password']);
+        }
+        if($request->filled('phone_num')){
+            $user['phone_num'] = $data['phone_num'];
+        }
+
+        if ($request->hasFile('profile_img')) {
+            
+            if ($user->profile_img && Storage::disk('public')->exists($user->profile_img)) {
+                Storage::disk('public')->delete($user->profile_img);
+            }
+
+            $path = $request->file('profile_img')->store('profiles' , 'public');
+            $user->profile_img = $path;
+
+        }
+
+        $user->save();
+
+        return redirect()->route('blog.dashboard')->with('succcess' , "Updated");
+
+    }
+
 }

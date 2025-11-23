@@ -313,11 +313,15 @@
 
         <footer>
             <button>Upload Blogs</button>
-            <button>Update Profile</button>
+            <button>
+            <a href="{{ route('blog.showupdate') }}">
+                Update Profile
+            </a>
+            </button>
             <button>View Blogs</button>
             <form method="POST" action="{{ route('blog.logout') }}" >
-            @csrf
-            <button type="submit">Logout</button>
+                @csrf
+                <button type="submit">Logout</button>
             </form>
         </footer>
         

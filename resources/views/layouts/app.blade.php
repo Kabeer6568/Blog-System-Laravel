@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title' , 'Blog System')</title>
     <style>
+        .profile img {
+    width: 132px;
+}
         * {
             margin: 0;
             padding: 0;

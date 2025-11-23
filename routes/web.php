@@ -28,3 +28,9 @@ Route::post('/login' , [BlogController::class, 'login'])->name('blog.login');
 
 // To logout
 Route::post('/logout' , [BlogController::class, 'logout'])->name('blog.logout');
+
+
+// To view Edit page
+Route::get('/update' , [BlogController::class, 'showUpdate'])->middleware('auth')->name('blog.showupdate');
+//Insert Data In Edit page
+Route::post('/update' , [BlogController::class, 'update'])->middleware('auth')->name('blog.update');
