@@ -281,19 +281,29 @@
         <h1>Dashboard</h1>
         
         <section>
-            <div class="profile">JD</div>
-            <h2>John Doe</h2>
+            <div class="profile">
+            
+            @if($user->profile_img)
+                <img src="{{ asset('storage/' . $user->profile_img) }}" alt="{{ $user->name }}">
+            
+            @else
+                {{ getInitials($user->name) }}
+            
+            @endif
+            
+            </div>
+            <h2>{{ucwords($user['name'])}}</h2>
             <p>Content Creator</p>
         </section>
 
         <article>
             <div>
                 <label>Email Address</label>
-                <span>john.doe@example.com</span>
+                <span>{{$user['email']}}</span>
             </div>
             <div>
                 <label>Phone Number</label>
-                <span>+1 (555) 123-4567</span>
+                <span>{{$user['phone_num']}}</span>
             </div>
             <div>
                 <label>Blogs Uploaded</label>
@@ -304,7 +314,13 @@
         <footer>
             <button>Upload Blogs</button>
             <button>Update Profile</button>
+            <button>View Blogs</button>
+            <form method="POST" action="{{ route('blog.logout') }}" >
+            @csrf
+            <button type="submit">Logout</button>
+            </form>
         </footer>
+        
     </main>
 
     @endsection

@@ -73,4 +73,16 @@ class BlogController extends Controller
         ])->onlyOutput('login');
 
     }
+
+    public function logout(Request $request){
+
+        AUTH::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('blog.login')->with('succcess' , "Logged In");
+
+    }
+
 }

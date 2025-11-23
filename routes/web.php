@@ -25,3 +25,6 @@ Route::get('/dash' , [BlogController::class, 'dashboard'])->middleware('auth')->
 Route::get('/login' , [BlogController::class, 'showLogin'])->name('login');
 //Fetch Data From Login page
 Route::post('/login' , [BlogController::class, 'login'])->name('blog.login');
+
+// To logout
+Route::post('/logout' , [BlogController::class, 'logout'])->name('blog.logout');
