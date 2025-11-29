@@ -34,3 +34,8 @@ Route::post('/logout' , [BlogController::class, 'logout'])->name('blog.logout');
 Route::get('/update' , [BlogController::class, 'showUpdate'])->middleware('auth')->name('blog.showupdate');
 //Insert Data In Edit page
 Route::post('/update' , [BlogController::class, 'update'])->middleware('auth')->name('blog.update');
+
+
+Route::get('/blog' , function(){
+    return view('layouts/blogs/index');
+});
