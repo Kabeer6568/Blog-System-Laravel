@@ -32,4 +32,21 @@ class AuthController extends Controller
         return redirect()->route('blog.dashboard')->with('sucess' , 'Blog Uploaded');
 
     }
+
+    public function viewUploadedBlogs()
+    {
+        $user = auth()->user();
+        $blogs = $user->blogs()->latest()->paginate(10);
+
+        return view('layouts.blogs.view', compact('user', 'blogs'));
+    }
+
+    public function viewFullBlog($id){
+
+        $blog = Blog::with('user')->findOrFail($id);
+
+        return view('layouts.blogs.show' , compact('blog'));
+
+    }
+    
 }

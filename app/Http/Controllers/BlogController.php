@@ -37,8 +37,10 @@ class BlogController extends Controller
     public function dashboard(){
 
         $user = auth()->user();
+        $blogCount = $user->blogs()->count();
+        
 
-        return view('layouts.dash' , compact('user'));
+        return view('layouts.dash' , compact('user' , 'blogCount'));
     }
 
     //show login page

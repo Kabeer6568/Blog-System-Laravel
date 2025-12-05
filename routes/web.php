@@ -37,6 +37,9 @@ Route::get('/update' , [BlogController::class, 'showUpdate'])->middleware('auth'
 Route::post('/update' , [BlogController::class, 'update'])->middleware('auth')->name('blog.update');
 
 
-Route::get('/blogs' , [AuthController::class, 'viewBlogs'])->name('blog.view');
+Route::get('/blogs' , [AuthController::class, 'viewBlogs'])->name('blog.showForm');
 Route::post('/blogs' , [AuthController::class, 'createBlogs'])->name('blog.createBlogs');
 
+Route::get('/view-uploaded-blogs' , [AuthController::class, 'viewUploadedBlogs'])->name('blog.showUploadedBlogs');
+
+Route::get('/blog/{id}' , [AuthController::class, 'viewFullBlog'])->name('blog.showFullBlogs');

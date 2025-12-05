@@ -307,12 +307,16 @@
             </div>
             <div>
                 <label>Blogs Uploaded</label>
-                <span>24 Articles Published</span>
+                <span>{{$blogCount}} Articles Published</span>
             </div>
         </article>
 
         <footer>
-            <button>Upload Blogs</button>
+            <button>
+                <a href="{{ route('blog.showForm') }}">
+                Upload Blogs
+                </a>
+            </button>
             <button>
             <a href="{{ route('blog.showupdate') }}">
                 Update Profile
