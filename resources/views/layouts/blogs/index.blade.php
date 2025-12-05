@@ -354,7 +354,7 @@
     <h1>Create Blog</h1>
     <p>Upload your blogs here</p>
     
-    <form method="POST" action="{{ route('blog.register') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('blog.createBlogs') }}" enctype="multipart/form-data">
         @csrf
         <div>
             <label for="title">Blog Title</label>

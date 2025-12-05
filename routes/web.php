@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\AuthController;
 
 // Route::get('/', function () {
 //     return view('layouts/index');
@@ -36,6 +37,9 @@ Route::get('/update' , [BlogController::class, 'showUpdate'])->middleware('auth'
 Route::post('/update' , [BlogController::class, 'update'])->middleware('auth')->name('blog.update');
 
 
-Route::get('/blog' , function(){
-    return view('layouts/blogs/index');
-});
+Route::get('/blogs' , [AuthController::class, 'viewBlogs'])->name('blog.showForm');
+Route::post('/blogs' , [AuthController::class, 'createBlogs'])->name('blog.createBlogs');
+
+Route::get('/view-uploaded-blogs' , [AuthController::class, 'viewUploadedBlogs'])->name('blog.showUploadedBlogs');
+
+Route::get('/blog/{id}' , [AuthController::class, 'viewFullBlog'])->name('blog.showFullBlogs');
