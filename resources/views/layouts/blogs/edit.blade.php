@@ -1,6 +1,6 @@
-@extends ('layouts/app')
+@extends('layouts/app')
 
-@section('title' , 'Upload Blog')
+@section('title', 'Edit Blog')
 
 @section('content')
 
@@ -155,7 +155,7 @@
     }
 
     textarea {
-        min-height: 120px;
+        min-height: 150px;
         resize: vertical;
     }
 
@@ -167,7 +167,7 @@
 
     .file-upload-area {
         width: 100%;
-        min-height: 200px;
+        min-height: 250px;
         border: 3px dashed #e8f4f8;
         border-radius: 18px;
         background: #f8fcff;
@@ -189,7 +189,7 @@
     }
 
     .file-upload-area.has-image {
-        min-height: 300px;
+        min-height: 350px;
         border-style: solid;
         border-color: #a8edea;
     }
@@ -209,8 +209,7 @@
     }
 
     .upload-icon {
-        font-size: 48px;
-        color: #667eea;
+        font-size: 56px;
         margin-bottom: 15px;
     }
 
@@ -225,6 +224,16 @@
         color: #8e9aaf;
         font-size: 13px;
         font-weight: 500;
+    }
+
+    .current-image-label {
+        color: #667eea;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 10px;
+        text-align: center;
     }
 
     .image-preview {
@@ -252,23 +261,40 @@
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
         cursor: pointer;
-        font-size: 20px;
+        font-size: 22px;
         font-weight: 700;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         transition: all 0.3s ease;
         z-index: 3;
     }
 
     .remove-image:hover {
-        transform: scale(1.1) rotate(90deg);
-        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+        transform: scale(1.15) rotate(90deg);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+    }
+
+    .change-image-hint {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 8px 16px;
+        border-radius: 12px;
+        color: #667eea;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        pointer-events: none;
     }
 
     .button-group {
@@ -311,11 +337,6 @@
         box-shadow: 0 20px 50px rgba(142, 154, 175, 0.4);
     }
 
-    button a {
-        color: white;
-        text-decoration: none;
-    }
-
     @media (max-width: 768px) {
         main {
             padding: 45px 35px;
@@ -327,6 +348,14 @@
 
         .button-group {
             grid-template-columns: 1fr;
+        }
+
+        .file-upload-area {
+            min-height: 220px;
+        }
+
+        .file-upload-area.has-image {
+            min-height: 300px;
         }
     }
 
@@ -345,52 +374,58 @@
         }
 
         .file-upload-area {
-            min-height: 180px;
+            min-height: 200px;
+        }
+
+        .upload-icon {
+            font-size: 48px;
         }
     }
 </style>
 
 <main>
-    <h1>Create Blog</h1>
-    <p>Upload your blogs here</p>
+    <h1>Edit Blog</h1>
+    <p>Update your blog post</p>
     
-    <form method="POST" action="{{ route('blog.createBlogs') }}" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
         @csrf
-        <div>
-            <label for="title">Blog Title</label>
-            <input type="text" id="title" name="title" placeholder="Enter your blog title" required>
-        </div>
-
-        <div>
-            <label for="description">Blog Description</label>
-            <textarea id="description" name="description" placeholder="Write your blog description here..." required></textarea>
-        </div>
+        @method('PUT')
 
         <div>
             <label for="featured_image">Featured Image</label>
             <div class="file-upload-wrapper">
-                <div class="file-upload-area" id="uploadArea">
-                    <input type="file" id="featured_image" name="featured_image" accept="image/*" required>
+                <div class="file-upload-area has-image" id="uploadArea">
+                    <input type="file" id="featured_image" name="featured_image" accept="image/*">
                     
-                    <div class="upload-placeholder" id="placeholder">
-                        <div class="upload-icon">📸</div>
-                        <div class="upload-text">Click to upload image</div>
+                    <div class="upload-placeholder" id="placeholder" style="display: none;">
+                        <div class="upload-icon">🖼️</div>
+                        <div class="upload-text">Click to upload new image</div>
                         <div class="upload-hint">Supports: JPG, PNG, GIF (Max 5MB)</div>
                     </div>
 
-                    <div class="image-preview" id="imagePreview">
-                        <img src="" alt="Preview" class="preview-img" id="previewImg">
+                    <div class="image-preview active" id="imagePreview">
+                        {{-- Display current blog image --}}
+                        <img src="{{ asset('storage/sample-blog.jpg') }}" alt="Current Blog Image" class="preview-img" id="previewImg">
                         <button type="button" class="remove-image" id="removeBtn">×</button>
+                        <div class="change-image-hint">Click to change</div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div>
+            <label for="title">Blog Title</label>
+            <input type="text" id="title" name="title" value="The Future of Web Development" placeholder="Enter blog title" required>
+        </div>
+
+        <div>
+            <label for="description">Blog Description</label>
+            <textarea id="description" name="description" placeholder="Write your blog description here..." required>Explore the latest trends and technologies shaping the future of web development. From AI integration to modern frameworks, discover what's next in the world of coding.</textarea>
+        </div>
+
         <div class="button-group">
-            <button type="submit">Create Blog</button>
-            <button type="button">
-                <a href="{{ route('blog.dashboard') }}">Return To Dashboard</a>
-            </button>
+            <button type="submit">Update Blog</button>
+            <button type="button">Cancel</button>
         </div>
     </form>
 </main>
@@ -403,7 +438,10 @@
     const previewImg = document.getElementById('previewImg');
     const removeBtn = document.getElementById('removeBtn');
 
-    // Handle file selection
+    // Store original image URL
+    const originalImageSrc = previewImg.src;
+
+    // Handle file selection (change image)
     fileInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
         
@@ -422,7 +460,7 @@
                 return;
             }
 
-            // Read and display image
+            // Read and display new image
             const reader = new FileReader();
             reader.onload = function(e) {
                 previewImg.src = e.target.result;
@@ -434,19 +472,21 @@
         }
     });
 
-    // Remove image
+    // Remove image (revert to placeholder or keep original)
     removeBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        fileInput.value = '';
-        previewImg.src = '';
-        placeholder.style.display = 'flex';
-        imagePreview.classList.remove('active');
-        uploadArea.classList.remove('has-image');
-    });
-
-    // Prevent form submission on remove button
-    removeBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        
+        // Clear file input
+        fileInput.value = '';
+        
+        // Revert to original image
+        previewImg.src = originalImageSrc;
+        
+        // Show placeholder if you want to remove completely
+        // placeholder.style.display = 'flex';
+        // imagePreview.classList.remove('active');
+        // uploadArea.classList.remove('has-image');
     });
 </script>
 

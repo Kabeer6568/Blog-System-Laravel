@@ -12,6 +12,8 @@ class AuthController extends Controller
         return view('layouts/blogs/index');
     }
 
+    //create blogs
+
     public function createBlogs(Request $request){
 
         $data = $request->validate([
@@ -33,6 +35,9 @@ class AuthController extends Controller
 
     }
 
+    // view uploaded blogs my current user
+    // only user accessable
+
     public function viewUploadedBlogs()
     {
         $user = auth()->user();
@@ -41,11 +46,22 @@ class AuthController extends Controller
         return view('layouts.blogs.view', compact('user', 'blogs'));
     }
 
+
+    // view each blog on full page
+
     public function viewFullBlog($id){
 
         $blog = Blog::with('user')->findOrFail($id);
 
         return view('layouts.blogs.show' , compact('blog'));
+
+    }
+
+    // edit each blog according to user
+
+    public function editBlogs(Request $request){
+
+        
 
     }
     

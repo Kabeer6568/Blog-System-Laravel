@@ -260,12 +260,12 @@
     }
 
     .read-more {
-        padding: 10px 20px;
+        padding: 8px 16px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         text-decoration: none;
-        border-radius: 12px;
-        font-size: 13px;
+        border-radius: 5px;
+        font-size: 12px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -347,8 +347,8 @@
     </header>
 
     <nav>
-        <a href="#">Dashboard</a>
-        <a href="#">Create Blog</a>
+        <a href="{{ route('blog.dashboard') }}">Dashboard</a>
+        <a href="{{ route('blog.showForm') }}">Create Blog</a>
     </nav>
     @if($blogs->count() > 0)
 
@@ -358,7 +358,7 @@
         @foreach($blogs as $blog)
         <article>
             <div class="blog-image">
-                <img src="{{'storage/' . $blog->featured_image}}" alt="Blog Image">
+                <img src="{{'../storage/' . $blog->featured_image}}" alt="Blog Image">
                 
             </div>
             <div class="blog-content">
@@ -367,7 +367,7 @@
                         <div class="author-avatar">{{ getInitials($user->name) }}</div>
                         <span class="author-name">{{ucwords($user->name)}}</span>
                     </div>
-                    <span class="blog-date">{{$user->created_at}}</span>
+                    <span class="blog-date">{{$blog->created_at->format('F,d,Y')}} . {{$blog->created_at->diffForHumans()}}</span>
                 </div>
                 <h2>{{ $blog->title }}</h2>
                 <p class="blog-description">
@@ -375,6 +375,7 @@
                 </p>
                 <div class="blog-footer">
                     <a href="{{route('blog.showFullBlogs' , $blog->id)}}" class="read-more">Read More</a>
+                    <a href="{{route('blog.showFullBlogs' , $blog->id)}}" class="read-more">Update Blog</a>
                     <div class="blog-stats">
                         <span class="stat">👁️ 1.2k</span>
                         <span class="stat">💬 24</span>

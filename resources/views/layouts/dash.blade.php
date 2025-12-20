@@ -322,7 +322,11 @@
                 Update Profile
             </a>
             </button>
-            <button>View Blogs</button>
+            <button>
+            <a href="{{ route('blog.showUploadedBlogs') }}">
+                View My Blogs
+            </a>
+            </button>
             <form method="POST" action="{{ route('blog.logout') }}" >
                 @csrf
                 <button type="submit">Logout</button>

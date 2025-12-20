@@ -37,9 +37,14 @@ Route::get('/update' , [BlogController::class, 'showUpdate'])->middleware('auth'
 Route::post('/update' , [BlogController::class, 'update'])->middleware('auth')->name('blog.update');
 
 
-Route::get('/blogs' , [AuthController::class, 'viewBlogs'])->name('blog.showForm');
-Route::post('/blogs' , [AuthController::class, 'createBlogs'])->name('blog.createBlogs');
+Route::get('/blogs' , [AuthController::class, 'viewBlogs'])->middleware('auth')->name('blog.showForm');
+Route::post('/blogs' , [AuthController::class, 'createBlogs'])->middleware('auth')->name('blog.createBlogs');
 
-Route::get('/view-uploaded-blogs' , [AuthController::class, 'viewUploadedBlogs'])->name('blog.showUploadedBlogs');
+Route::get('dash/view-uploaded-blogs' , [AuthController::class, 'viewUploadedBlogs'])->middleware('auth')->name('blog.showUploadedBlogs');
 
-Route::get('/blog/{id}' , [AuthController::class, 'viewFullBlog'])->name('blog.showFullBlogs');
+Route::get('/blog/{id}' , [AuthController::class, 'viewFullBlog'])->middleware('auth')->name('blog.showFullBlogs');
+Route::get('/blogs/edit',  function () {
+     return view('layouts/blogs/edit');
+ });
+
+ 

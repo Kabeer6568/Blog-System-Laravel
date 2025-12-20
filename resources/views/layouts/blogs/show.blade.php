@@ -7,7 +7,7 @@
     <article style="background: white; border-radius: 25px; padding: 40px; box-shadow: 0 15px 50px rgba(0,0,0,0.1);">
         
         {{-- Back Button --}}
-        <a href="#" style="color: #667eea; text-decoration: none; font-weight: 600; margin-bottom: 20px; display: inline-block;">
+        <a href="{{route('blog.showUploadedBlogs')}}" style="color: #667eea; text-decoration: none; font-weight: 600; margin-bottom: 20px; display: inline-block;">
             ← Back to My Blogs
         </a>
         
@@ -26,7 +26,7 @@
                 @endif
             </div>
             <div>
-                <div style="font-weight: 700; color: #667eea;">{{ $blog->user->name }}</div>
+                <div style="font-weight: 700; color: #667eea;">{{ ucwords($blog->user->name) }}</div>
                 <div style="font-size: 14px; color: #8e9aaf;">{{ $blog->created_at->format('F d, Y') }} • {{ $blog->created_at->diffForHumans() }}</div>
             </div>
         </div>
