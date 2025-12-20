@@ -375,7 +375,7 @@
                 </p>
                 <div class="blog-footer">
                     <a href="{{route('blog.showFullBlogs' , $blog->id)}}" class="read-more">Read More</a>
-                    <a href="{{route('blog.showFullBlogs' , $blog->id)}}" class="read-more">Update Blog</a>
+                    <a href="{{route('blog.editform' , $blog->id)}}" class="read-more">Update Blog</a>
                     <div class="blog-stats">
                         <span class="stat">👁️ 1.2k</span>
                         <span class="stat">💬 24</span>

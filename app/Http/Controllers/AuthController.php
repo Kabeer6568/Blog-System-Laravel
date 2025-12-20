@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -57,11 +58,52 @@ class AuthController extends Controller
 
     }
 
+     public function showEditBlogs($id){
+        
+        $blog = Blog::with('user')->findOrFail($id);
+
+        return view('layouts/blogs/edit' , compact('blog'));
+    }
+
     // edit each blog according to user
 
-    public function editBlogs(Request $request){
+    public function editBlogs(Request $request , $id){
+
+        $data = $request->validate([
+            'title' => 'nullable|string|max:255',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,webp,gif|max:2048',
+            'description' => 'nullable|string',
+        ]);
 
         
+        $blog = Blog::findOrFail($id);
+
+        // Check if the authenticated user owns this blog
+    if ($blog->user_id !== auth()->id()) {
+        abort(403, 'Unauthorized action.');
+    }
+
+
+        if ($request->filled('title')) {
+            $blog['title'] = $data['title']; 
+        };
+
+        if ($request->filled('description')) {
+            $blog['description'] = $data['description']; 
+        };
+
+        if ($request->hasFile('featured_image')) {
+            if ($blog->featured_image && Storage::disk('public')->exists($blog->featured_image)) {
+                Storage::disk('public')->delete($blog->featured_image);
+            }
+
+            $path = $request->file('featured_image')->store('profiles' , 'public');
+            $blog->featured_image = $path;
+        };
+
+        $blog->save();
+
+        return redirect()->route('blog.showUploadedBlogs')->with('sucess' , 'updated');
 
     }
     

@@ -43,8 +43,7 @@ Route::post('/blogs' , [AuthController::class, 'createBlogs'])->middleware('auth
 Route::get('dash/view-uploaded-blogs' , [AuthController::class, 'viewUploadedBlogs'])->middleware('auth')->name('blog.showUploadedBlogs');
 
 Route::get('/blog/{id}' , [AuthController::class, 'viewFullBlog'])->middleware('auth')->name('blog.showFullBlogs');
-Route::get('/blogs/edit',  function () {
-     return view('layouts/blogs/edit');
- });
 
- 
+Route::get('/blogs/edit/{id}',  [AuthController::class, 'showEditBlogs'])->middleware('auth')->name('blog.editform');
+Route::post('/blogs/edit/{id}',  [AuthController::class, 'editBlogs'])->middleware('auth')->name('blog.editBlogs');
+     

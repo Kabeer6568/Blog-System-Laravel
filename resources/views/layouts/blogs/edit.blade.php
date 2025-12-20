@@ -387,14 +387,15 @@
     <h1>Edit Blog</h1>
     <p>Update your blog post</p>
     
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('blog.editBlogs' , $blog->id) }}" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
+
 
         <div>
             <label for="featured_image">Featured Image</label>
             <div class="file-upload-wrapper">
                 <div class="file-upload-area has-image" id="uploadArea">
+                    
                     <input type="file" id="featured_image" name="featured_image" accept="image/*">
                     
                     <div class="upload-placeholder" id="placeholder" style="display: none;">
@@ -405,7 +406,7 @@
 
                     <div class="image-preview active" id="imagePreview">
                         {{-- Display current blog image --}}
-                        <img src="{{ asset('storage/sample-blog.jpg') }}" alt="Current Blog Image" class="preview-img" id="previewImg">
+                        <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="Current Blog Image" class="preview-img" id="previewImg">
                         <button type="button" class="remove-image" id="removeBtn">×</button>
                         <div class="change-image-hint">Click to change</div>
                     </div>
@@ -415,12 +416,12 @@
 
         <div>
             <label for="title">Blog Title</label>
-            <input type="text" id="title" name="title" value="The Future of Web Development" placeholder="Enter blog title" required>
+            <input type="text" id="title" name="title" value="{{ old('title' , $blog->title) }}" placeholder="Enter blog title" required>
         </div>
 
         <div>
             <label for="description">Blog Description</label>
-            <textarea id="description" name="description" placeholder="Write your blog description here..." required>Explore the latest trends and technologies shaping the future of web development. From AI integration to modern frameworks, discover what's next in the world of coding.</textarea>
+            <textarea id="description" name="description" placeholder="Write your blog description here..." required>{{ old('description' , $blog->description) }}</textarea>
         </div>
 
         <div class="button-group">
