@@ -46,4 +46,7 @@ Route::get('/blog/{id}' , [AuthController::class, 'viewFullBlog'])->middleware('
 
 Route::get('/blogs/edit/{id}',  [AuthController::class, 'showEditBlogs'])->middleware('auth')->name('blog.editform');
 Route::post('/blogs/edit/{id}',  [AuthController::class, 'editBlogs'])->middleware('auth')->name('blog.editBlogs');
+
+Route::get('/home',  [AuthController::class, 'showAllBlogs'])->name('blog.showAllBlogs');
+// Route::post('/blogs/edit/{id}',  [AuthController::class, 'editBlogs'])->middleware('auth')->name('blog.editBlogs');
      

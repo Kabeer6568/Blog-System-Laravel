@@ -106,5 +106,11 @@ class AuthController extends Controller
         return redirect()->route('blog.showUploadedBlogs')->with('sucess' , 'updated');
 
     }
+
+    public function showAllBlogs(){
+        $blogs = Blog::with('user')->get();
+        // $user = Blog::with('user');
+        return view('layouts/home' , compact('blogs'));
+    }
     
 }
